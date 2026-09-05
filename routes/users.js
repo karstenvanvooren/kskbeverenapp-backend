@@ -1,23 +1,153 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const router = express.Router();
 
 const User = require("../models/User");
+const Player = require("../models/Player");
 
-// GET alle gebruikers
-router.get("/", async (req, res) => {
+// ==========================================
+// REGISTER
+// POST /users/register
+// ==========================================
+
+router.post("/register", async (req, res) => {
   try {
-    const users = await User.find().select("-passwordHash");
+    const { username, email, password } = req.body || {};
 
-    res.json(users);
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        message: "Username, email en password zijn verplicht.",
+      });
+    }
+
+    const existingUser = await User.findOne({
+      email: email.toLowerCase(),
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message: "Dit emailadres bestaat al.",
+      });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      username,
+      email: email.toLowerCase(),
+      passwordHash,
+    });
+
+    const savedUser = await user.save();
+
+    res.status(201).json({
+      message: "Account aangemaakt.",
+      user: {
+        id: savedUser._id,
+        username: savedUser.username,
+        email: savedUser.email,
+      },
+    });
   } catch (error) {
-    res.status(500).json({
-      message: "Fout bij ophalen gebruikers",
+    res.status(400).json({
+      message: "Fout bij registreren.",
       error: error.message,
     });
   }
 });
 
-// GET één gebruiker
+// ==========================================
+// LOGIN
+// POST /users/login
+// ==========================================
+
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body || {};
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email en password zijn verplicht.",
+      });
+    }
+
+    const user = await User.findOne({
+      email: email.toLowerCase(),
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Email of wachtwoord is fout.",
+      });
+    }
+
+    const passwordCorrect = await bcrypt.compare(
+      password,
+      user.passwordHash
+    );
+
+    if (!passwordCorrect) {
+      return res.status(401).json({
+        message: "Email of wachtwoord is fout.",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user._id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    res.json({
+      message: "Succesvol ingelogd.",
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        profileImage: user.profileImage,
+        favoritePlayerId: user.favoritePlayerId,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Fout bij inloggen.",
+      error: error.message,
+    });
+  }
+});
+
+// ==========================================
+// GET ALL USERS
+// GET /users
+// ==========================================
+
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find()
+      .select("-passwordHash")
+      .populate("favoritePlayerId");
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({
+      message: "Fout bij ophalen gebruikers.",
+      error: error.message,
+    });
+  }
+});
+
+// ==========================================
+// GET USER
+// GET /users/:id
+// ==========================================
+
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -26,60 +156,67 @@ router.get("/:id", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "Gebruiker niet gevonden",
+        message: "Gebruiker niet gevonden.",
       });
     }
 
     res.json(user);
   } catch (error) {
-    res.status(500).json({
-      message: "Fout bij ophalen gebruiker",
-      error: error.message,
-    });
-  }
-});
-
-// POST nieuwe gebruiker
-router.post("/", async (req, res) => {
-  try {
-    const user = new User(req.body);
-
-    const savedUser = await user.save();
-
-    const userResponse = savedUser.toObject();
-    delete userResponse.passwordHash;
-
-    res.status(201).json(userResponse);
-  } catch (error) {
     res.status(400).json({
-      message: "Fout bij aanmaken gebruiker",
+      message: "Ongeldige gebruiker-ID.",
       error: error.message,
     });
   }
 });
 
-// PUT gebruiker aanpassen
+// ==========================================
+// UPDATE USER
+// PUT /users/:id
+// ==========================================
+
 router.put("/:id", async (req, res) => {
   try {
+    const {
+      username,
+      profileImage,
+      favoritePlayerId,
+    } = req.body || {};
+
+    if (favoritePlayerId) {
+      const player = await Player.findById(favoritePlayerId);
+
+      if (!player) {
+        return res.status(404).json({
+          message: "Favoriete speler niet gevonden.",
+        });
+      }
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        username,
+        profileImage,
+        favoritePlayerId,
+      },
       {
         new: true,
         runValidators: true,
       }
-    ).select("-passwordHash");
+    )
+      .select("-passwordHash")
+      .populate("favoritePlayerId");
 
     if (!updatedUser) {
       return res.status(404).json({
-        message: "Gebruiker niet gevonden",
+        message: "Gebruiker niet gevonden.",
       });
     }
 
     res.json(updatedUser);
   } catch (error) {
     res.status(400).json({
-      message: "Fout bij aanpassen gebruiker",
+      message: "Fout bij aanpassen gebruiker.",
       error: error.message,
     });
   }

@@ -5,6 +5,7 @@ const matchSchema = new mongoose.Schema(
     opponent: {
       type: String,
       required: true,
+      trim: true,
     },
 
     opponentLogo: {
@@ -39,6 +40,7 @@ const matchSchema = new mongoose.Schema(
 
     matchday: {
       type: Number,
+      default: null,
     },
 
     status: {
@@ -57,9 +59,7 @@ const matchSchema = new mongoose.Schema(
       default: null,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Match", matchSchema);

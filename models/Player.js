@@ -5,21 +5,29 @@ const playerSchema = new mongoose.Schema(
     firstName: {
       type: String,
       required: true,
+      trim: true,
     },
 
     lastName: {
       type: String,
       required: true,
+      trim: true,
     },
 
     number: {
       type: Number,
-      required: true,
+      default: null,
     },
 
     position: {
       type: String,
       required: true,
+      enum: ["Doelman", "Verdediger", "Middenvelder", "Aanvaller"],
+    },
+
+    birthDate: {
+      type: Date,
+      default: null,
     },
 
     image: {
@@ -37,9 +45,7 @@ const playerSchema = new mongoose.Schema(
       default: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Player", playerSchema);

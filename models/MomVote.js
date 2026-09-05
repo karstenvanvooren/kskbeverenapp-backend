@@ -20,9 +20,15 @@ const momVoteSchema = new mongoose.Schema(
       required: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
+
+
+// Eén gebruiker kan maar één keer stemmen per wedstrijd.
+momVoteSchema.index(
+  { matchId: 1, userId: 1 },
+  { unique: true }
+);
+
 
 module.exports = mongoose.model("MomVote", momVoteSchema);

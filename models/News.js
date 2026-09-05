@@ -5,6 +5,7 @@ const newsSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
 
     summary: {
@@ -37,9 +38,7 @@ const newsSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("News", newsSchema);

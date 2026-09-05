@@ -17,11 +17,11 @@ const commentSchema = new mongoose.Schema(
     content: {
       type: String,
       required: true,
+      trim: true,
+      maxlength: 500,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Comment", commentSchema);

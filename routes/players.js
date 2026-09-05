@@ -1,43 +1,52 @@
 const express = require("express");
+
 const router = express.Router();
 
 const Player = require("../models/Player");
 
-// GET alle spelers
+
+// GET ALL PLAYERS
 router.get("/", async (req, res) => {
   try {
-    const players = await Player.find();
+    const players = await Player.find({
+      active: true,
+    }).sort({
+      position: 1,
+      lastName: 1,
+    });
 
     res.json(players);
   } catch (error) {
     res.status(500).json({
-      message: "Fout bij ophalen spelers",
+      message: "Fout bij ophalen spelers.",
       error: error.message,
     });
   }
 });
 
-// GET één speler
+
+// GET ONE PLAYER
 router.get("/:id", async (req, res) => {
   try {
     const player = await Player.findById(req.params.id);
 
     if (!player) {
       return res.status(404).json({
-        message: "Speler niet gevonden",
+        message: "Speler niet gevonden.",
       });
     }
 
     res.json(player);
   } catch (error) {
-    res.status(500).json({
-      message: "Fout bij ophalen speler",
+    res.status(400).json({
+      message: "Ongeldige speler-ID.",
       error: error.message,
     });
   }
 });
 
-// POST nieuwe speler
+
+// CREATE PLAYER
 router.post("/", async (req, res) => {
   try {
     const player = new Player(req.body);
@@ -47,13 +56,14 @@ router.post("/", async (req, res) => {
     res.status(201).json(savedPlayer);
   } catch (error) {
     res.status(400).json({
-      message: "Fout bij aanmaken speler",
+      message: "Fout bij aanmaken speler.",
       error: error.message,
     });
   }
 });
 
-// PUT speler aanpassen
+
+// UPDATE PLAYER
 router.put("/:id", async (req, res) => {
   try {
     const updatedPlayer = await Player.findByIdAndUpdate(
@@ -67,39 +77,43 @@ router.put("/:id", async (req, res) => {
 
     if (!updatedPlayer) {
       return res.status(404).json({
-        message: "Speler niet gevonden",
+        message: "Speler niet gevonden.",
       });
     }
 
     res.json(updatedPlayer);
   } catch (error) {
     res.status(400).json({
-      message: "Fout bij aanpassen speler",
+      message: "Fout bij aanpassen speler.",
       error: error.message,
     });
   }
 });
 
-// DELETE speler
+
+// DELETE PLAYER
 router.delete("/:id", async (req, res) => {
   try {
-    const deletedPlayer = await Player.findByIdAndDelete(req.params.id);
+    const deletedPlayer = await Player.findByIdAndDelete(
+      req.params.id
+    );
 
     if (!deletedPlayer) {
       return res.status(404).json({
-        message: "Speler niet gevonden",
+        message: "Speler niet gevonden.",
       });
     }
 
     res.json({
-      message: "Speler verwijderd",
+      message: "Speler verwijderd.",
     });
   } catch (error) {
     res.status(500).json({
-      message: "Fout bij verwijderen speler",
+      message: "Fout bij verwijderen speler.",
       error: error.message,
     });
   }
 });
+
 
 module.exports = router;
