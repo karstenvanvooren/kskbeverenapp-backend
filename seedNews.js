@@ -10,7 +10,7 @@ const news = [
       "KSK Beveren is uitstekend gestart met een 4-0 overwinning tegen SK Berlare.",
     content:
       "KSK Beveren is de competitie uitstekend gestart. Op de openingsspeeldag werd SK Berlare met 4-0 verslagen. Bekijk de mooiste momenten van onze eerste competitiewedstrijd.",
-    image: "",
+    image: "kskb-berlare",
     category: "Wedstrijd",
     author: "KSK Beveren",
     publishedAt: new Date("2026-08-30"),
@@ -70,7 +70,7 @@ const news = [
       "De crowdfundingactie Coming Home van KSK Beveren werd een groot succes.",
     content:
       "De crowdfundingactie Coming Home van KSK Beveren is een groot succes geworden. Dankzij de massale steun van supporters en sympathisanten werd een prachtig bedrag verzameld.",
-    image: "",
+    image: "ploegfoto",
     category: "Club",
     author: "KSK Beveren",
     publishedAt: new Date("2026-07-15"),
