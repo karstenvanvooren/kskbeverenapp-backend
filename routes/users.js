@@ -7,10 +7,6 @@ const router = express.Router();
 const User = require("../models/User");
 const Player = require("../models/Player");
 
-// ==========================================
-// REGISTER
-// POST /users/register
-// ==========================================
 
 router.post("/register", async (req, res) => {
   try {
@@ -58,10 +54,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// ==========================================
-// LOGIN
-// POST /users/login
-// ==========================================
 
 router.post("/login", async (req, res) => {
   try {
@@ -123,10 +115,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// ==========================================
-// GET ALL USERS
-// GET /users
-// ==========================================
 
 router.get("/", async (req, res) => {
   try {
@@ -143,10 +131,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ==========================================
-// GET USER
-// GET /users/:id
-// ==========================================
+
 
 router.get("/:id", async (req, res) => {
   try {
@@ -169,10 +154,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// ==========================================
-// UPDATE USER
-// PUT /users/:id
-// ==========================================
+
 
 router.put("/:id", async (req, res) => {
   try {

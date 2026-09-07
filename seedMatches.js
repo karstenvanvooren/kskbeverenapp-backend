@@ -3,9 +3,6 @@ require("dotenv").config();
 
 const Match = require("./models/Match");
 
-// opponentLogo values are lookup keys, not URLs -- they match the keys in
-// the frontend's constants/localImages.js (CLUB_LOGOS) which map to the
-// bundled crest images pushed to assets/images.
 const matches = [
   {
     opponent: "SK Beveren",

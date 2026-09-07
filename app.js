@@ -38,14 +38,12 @@ app.use("/comments", commentsRoutes);
 app.use("/mom-votes", momVotesRoutes);
 app.use("/standings", standingsRoutes);
 
-// Test endpoint
 app.get("/", (req, res) => {
   res.json({
     message: "KSK Beveren API werkt!",
   });
 });
 
-// Server starten
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

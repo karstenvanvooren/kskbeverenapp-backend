@@ -5,7 +5,6 @@ const router = express.Router();
 const Standing = require("../models/Standing");
 
 
-// GET FULL LEAGUE TABLE (sorted on punten, dan doelsaldo, dan doelpunten voor)
 router.get("/", async (req, res) => {
   try {
     const standings = await Standing.find();
