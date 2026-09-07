@@ -109,8 +109,8 @@ const matches = [
     competition: "Oefenwedstrijd",
     matchday: 7,
     status: "finished",
-    homeScore: null,
-    awayScore: null,
+    homeScore: 4,
+    awayScore: 5,
   },
   {
     opponent: "VV Hulst",
