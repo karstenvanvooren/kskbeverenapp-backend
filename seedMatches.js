@@ -3,9 +3,13 @@ require("dotenv").config();
 
 const Match = require("./models/Match");
 
+// opponentLogo values are lookup keys, not URLs -- they match the keys in
+// the frontend's constants/localImages.js (CLUB_LOGOS) which map to the
+// bundled crest images pushed to assets/images.
 const matches = [
   {
     opponent: "SK Beveren",
+    opponentLogo: "skbeveren",
     date: new Date("2026-07-04"),
     time: "17:00",
     location: "Freethiel",
@@ -18,6 +22,7 @@ const matches = [
   },
   {
     opponent: "FCSM Latem",
+    opponentLogo: "latem",
     date: new Date("2026-07-26"),
     time: "16:00",
     location: "Uitwedstrijd",
@@ -30,6 +35,7 @@ const matches = [
   },
   {
     opponent: "KSK Kallo",
+    opponentLogo: "kallo",
     date: new Date("2026-07-28"),
     time: "19:30",
     location: "Uitwedstrijd",
@@ -42,6 +48,7 @@ const matches = [
   },
   {
     opponent: "Deurne Pirates",
+    opponentLogo: "deurnepirates",
     date: new Date("2026-07-29"),
     time: "19:30",
     location: "Uitwedstrijd",
@@ -54,6 +61,7 @@ const matches = [
   },
   {
     opponent: "KSC Blankenberge",
+    opponentLogo: "blankenberge",
     date: new Date("2026-08-02"),
     time: "16:00",
     location: "Freethiel",
@@ -66,6 +74,7 @@ const matches = [
   },
   {
     opponent: "KFC Jong Kruibeke",
+    opponentLogo: "kruibeke",
     date: new Date("2026-08-05"),
     time: "20:00",
     location: "Freethiel",
@@ -78,6 +87,7 @@ const matches = [
   },
   {
     opponent: "KFC Sporting Sint-Gillis-Waas",
+    opponentLogo: "sintgilleswaas",
     date: new Date("2026-08-12"),
     time: "19:15",
     location: "Uitwedstrijd",
@@ -90,6 +100,7 @@ const matches = [
   },
   {
     opponent: "Koninklijk Berchem Sport",
+    opponentLogo: "berchem",
     date: new Date("2026-08-16"),
     time: "15:00",
     location: "Uitwedstrijd",
@@ -102,6 +113,7 @@ const matches = [
   },
   {
     opponent: "Sparta Waasmunster",
+    opponentLogo: "waasmunster",
     date: new Date("2026-08-20"),
     time: "20:00",
     location: "Freethiel",
@@ -114,6 +126,7 @@ const matches = [
   },
   {
     opponent: "VV Hulst",
+    opponentLogo: "hulst",
     date: new Date("2026-08-22"),
     time: "14:30",
     location: "Uitwedstrijd",
@@ -126,6 +139,7 @@ const matches = [
   },
   {
     opponent: "SK Berlare",
+    opponentLogo: "berlare",
     date: new Date("2026-08-29"),
     time: "20:00",
     location: "Freethiel",
@@ -138,6 +152,7 @@ const matches = [
   },
   {
     opponent: "SK Denderhoutem",
+    opponentLogo: "denderhoutem",
     date: new Date("2026-09-05"),
     time: "19:30",
     location: "Uitwedstrijd",
@@ -150,6 +165,7 @@ const matches = [
   },
   {
     opponent: "Evergem 2020",
+    opponentLogo: "evergem",
     date: new Date("2026-09-12"),
     time: "20:00",
     location: "Freethiel",
@@ -162,6 +178,7 @@ const matches = [
   },
   {
     opponent: "Herleving Red Star Haasdonk",
+    opponentLogo: "haasdonk",
     date: new Date("2026-09-19"),
     time: "20:00",
     location: "Uitwedstrijd",
@@ -174,6 +191,7 @@ const matches = [
   },
   {
     opponent: "VK Ninove",
+    opponentLogo: "ninove",
     date: new Date("2026-09-26"),
     time: "20:00",
     location: "Freethiel",
@@ -186,6 +204,7 @@ const matches = [
   },
   {
     opponent: "SK Munkzwalm",
+    opponentLogo: "munkzwalm",
     date: new Date("2026-10-04"),
     time: "15:00",
     location: "Uitwedstrijd",
@@ -198,6 +217,7 @@ const matches = [
   },
   {
     opponent: "KVV Schelde Serskamp-Schellebelle",
+    opponentLogo: "schellebelle",
     date: new Date("2026-10-10"),
     time: "20:00",
     location: "Freethiel",
@@ -210,6 +230,7 @@ const matches = [
   },
   {
     opponent: "KV Eendracht Aalter",
+    opponentLogo: "aalter",
     date: new Date("2026-10-17"),
     time: "20:00",
     location: "Uitwedstrijd",
@@ -222,6 +243,7 @@ const matches = [
   },
   {
     opponent: "FCSM Latem",
+    opponentLogo: "latem",
     date: new Date("2026-10-24"),
     time: "19:30",
     location: "Uitwedstrijd",
@@ -234,6 +256,7 @@ const matches = [
   },
   {
     opponent: "VC Nokere-Kruishoutem",
+    opponentLogo: "kruishoutem",
     date: new Date("2026-10-31"),
     time: "21:00",
     location: "Freethiel",
